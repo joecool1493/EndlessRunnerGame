@@ -33,6 +33,9 @@ var playing = false
 public var movementAllowed = false
 public var lifetimeScore = 0
 
+let burp = SKAction.playSoundFileNamed("b", waitForCompletion: false)
+let fart = SKAction.playSoundFileNamed("f", waitForCompletion: false)
+
 //
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
@@ -91,6 +94,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // let appStoreID = number
     
     //
     
@@ -115,6 +119,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         gameState.enter(initialState)
         
     }
+    
+   /* func rateApp() {
+        let urlString = "https://itunes.apple.com/us/app/example/id\(appStoreID)?mt=8"
+        let url = URL(string: urlString)
+        UIApplication.shared.open(url!, options: [:], completionHandler: completionHandler: nil)
+        
+    } */
+    
+   /* func shareScore() {
+        //change linnk for own app!
+        let urlString = "https://itunes.apple.com/us/app/example/id\(appStoreID)?mt=8"
+        let url = URL(string: urlString)
+        
+        let screenshot = gameSceneDelegate.screenshot()
+        let textString = "Check it out, I scored \(score / 1) points in this game!"
+        gameSceneDelegate.shareString(textString, url: url!, image: screenshot)
+    } */
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered

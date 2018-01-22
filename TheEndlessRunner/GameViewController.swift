@@ -9,8 +9,11 @@
 import UIKit
 import SpriteKit
 import GameplayKit
+import AVFoundation
 
 class GameViewController: UIViewController, GameSceneDelegate {
+    
+    var shakeAudioPlayer: AVAudioPlayer?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,12 +65,44 @@ class GameViewController: UIViewController, GameSceneDelegate {
         }
     }
     
-    func screenshot() {
-        //
+    override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
+        if motion == .motionShake {
+            let randomNumber = arc4random_uniform(2)
+            if randomNumber == 0 {
+                do {
+                    let path = Bundle.main.path(forResource: "b", ofType: "mp3")
+                    shakeAudioPlayer = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: path!))
+                    shakeAudioPlayer?.volume = 0.8
+                    shakeAudioPlayer?.prepareToPlay()
+                    shakeAudioPlayer?.play()
+                } catch {
+                    print("error loading audio file")
+                }
+            } else {
+                do {
+                    let path = Bundle.main.path(forResource: "f", ofType: "mp3")
+                    shakeAudioPlayer = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: path!))
+                    shakeAudioPlayer?.volume = 0.8
+                    shakeAudioPlayer?.prepareToPlay()
+                    shakeAudioPlayer?.play()
+                } catch {
+                    print("error loading audio file")
+                }
+            }
+            }
+        }
+    
+    func screenshot() -> UIImage {
+        UIGraphicsBeginImageContextWithOptions(view.bounds.size, false, 1.0)
+        view.drawHierarchy(in: view.bounds, afterScreenUpdates: true)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return image!
     }
     
-    func sharestring() {
-        //
+    func sharestrin(_ string: String, url: URL, image: UIImage) {
+        let vc = UIActivityViewController(activityItems: [string, url, image], applicationActivities: nil)
+        present(vc, animated: true, completion: nil)
     }
     
     override var shouldAutorotate: Bool {
